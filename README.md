@@ -11,7 +11,7 @@ Construído a partir do documento de produto “Vira Renda · Produto completo�
 ## Sumário
 
 1. [Stack e arquitetura](#stack-e-arquitetura)
-2. [Instalação](#instalação)
+2. [Rodar no navegador (Codespaces)](#rodar-no-navegador-github-codespaces-sem-instalar-nada) e [Instalação](#instalação)
 3. [Configuração e variáveis de ambiente](#configuração-e-variáveis-de-ambiente)
 4. [Banco de dados](#banco-de-dados)
 5. [Execução](#execução)
@@ -71,6 +71,16 @@ tests/e2e              Playwright
 Princípios do documento aplicados no código: celular primeiro; sem promessa de ganhos; R$ 69,90 sempre visível junto do R$ 29,90; **acesso só com pagamento confirmado no servidor** (via webhook validado); nenhuma mensagem automática para clientes; coleta mínima de dados; mentores sempre identificados como IA.
 
 ---
+
+## Rodar no navegador (GitHub Codespaces, sem instalar nada)
+
+1. No GitHub, abra o repositório e clique em **Code › Codespaces › Create codespace on main**.
+2. Espere a instalação terminar (na primeira vez leva uns 3 a 5 minutos). O app sobe sozinho e abre uma aba do navegador com o site.
+3. Se a aba não abrir, vá na aba **Portas** (Ports), na porta 3000, e clique no ícone de globo.
+
+Contas de demonstração e cartões de teste estão em [Contas de demonstração](#contas-de-demonstração). Os e-mails do sistema aparecem em `/dev/emails`.
+
+Para mostrar a outras pessoas enquanto o Codespace estiver ligado: na aba **Portas**, clique com o botão direito na porta 3000 › **Visibilidade da porta › Pública** e copie o endereço. Quem tiver o link entra no site, e as senhas de demonstração são conhecidas: use só para testes e volte para Privada depois. O Codespace desliga sozinho após um tempo sem uso; para religar, abra-o de novo em **Code › Codespaces**.
 
 ## Instalação
 

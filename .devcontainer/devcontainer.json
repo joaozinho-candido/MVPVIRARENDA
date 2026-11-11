@@ -1,0 +1,15 @@
+{
+  "name": "Vira Renda",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "hostRequirements": { "cpus": 2, "memory": "4gb" },
+  "postCreateCommand": "npm install && npm run db:seed -- --demo",
+  "postAttachCommand": { "app": "npm run dev" },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "Vira Renda", "onAutoForward": "openBrowser" }
+  },
+  "customizations": {
+    "codespaces": { "openFiles": ["README.md"] },
+    "vscode": { "extensions": ["bradlc.vscode-tailwindcss", "dbaeumer.vscode-eslint"] }
+  }
+}
