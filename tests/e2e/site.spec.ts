@@ -6,7 +6,7 @@ test("página inicial com os 10 blocos, filtros e preço de depois visível", as
   await expect(page.getByRole("heading", { name: /transformar o que já sabe fazer/ })).toBeVisible();
   await expect(page.getByText("Bia · mentora (IA)").first()).toBeVisible();
   await dismissCookies(page);
-  for (const h of ["Do “não sei por onde começar” à primeira venda", "O que dá para fazer com o que você já tem", "Veja o produto funcionando, sem cadastro", "Uma equipe de 6 mentores", "Um plano só, sem letra miúda", "Perguntas frequentes"]) {
+  for (const h of ["Do “não sei por onde começar” à primeira venda", "O que dá para fazer com o que você já tem", "Entenda o início da sua jornada com o Vira Renda", "Uma equipe de 6 mentores de IA", "Um plano só, sem letra miúda", "Perguntas frequentes"]) {
     await expect(page.getByRole("heading", { name: h })).toBeVisible();
   }
   // Filtro "Presencial" esconde oportunidades só online

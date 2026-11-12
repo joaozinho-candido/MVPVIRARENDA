@@ -63,7 +63,7 @@ export const QUESTIONS: Question[] = [
     id: "helpWith",
     kind: "multi",
     title: "O que as pessoas te pedem ajuda?",
-    hint: "Escolha quantas quiser. Se não lembrar de nada, marque “Não sei” — tudo bem.",
+    hint: "Escolha quantas quiser. Se não lembrar de nada, marque “Não sei”. Tudo bem!",
     options: [
       { value: "fotos", label: "Arrumar fotos e vídeos" },
       { value: "redes", label: "Postar nas redes" },
@@ -150,7 +150,7 @@ export const QUESTIONS: Question[] = [
     id: "budget",
     kind: "scale",
     title: "Quanto você pode investir para começar?",
-    hint: "Começar com pouco é normal. Várias oportunidades pedem quase nada.",
+    hint: "Pense em um valor que não aperte as contas da casa.",
     options: [
       { value: "0", label: "Nada por enquanto" },
       { value: "100", label: "Até R$ 100" },
@@ -182,7 +182,7 @@ export const QUESTIONS: Question[] = [
     id: "goal",
     kind: "scale",
     title: "Tem uma meta de renda extra por mês?",
-    hint: "É só para planejar. A gente não promete quanto você vai ganhar.",
+    hint: "Opcional. É uma referência para planejar, não uma promessa de ganho.",
     options: [
       { value: "", label: "Prefiro não dizer" },
       { value: "300", label: "Uns R$ 300" },

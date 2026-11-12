@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { journeys } from "@/db/schema";
 import { requireUser, userHasAccess } from "@/server/session";
-import { getRecommendations } from "@/server/profile";
+import { getRecommendations, getProfile } from "@/server/profile";
+import { labelFor, labelsFor } from "@/lib/quiz";
 import { quoteFor } from "@/server/billing/subscriptions";
 import { MentorBubble, PageTitle, Notice, EmptyState } from "@/components/ui";
 import { ChooseButton } from "@/components/app/choose";
@@ -27,10 +28,53 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ n
       </EmptyState>
     );
   const q = paid ? null : await quoteFor(u.id);
+  const profile = await getProfile(u.id);
+  const a = profile?.answers;
+  const handoff: [string, string][] = a
+    ? [
+        ["Talentos", labelsFor("skills", [...a.skills, ...(a.timeFlies ?? [])]) || "a descobrir"],
+        ["Pedem sua ajuda para", labelsFor("helpWith", a.helpWith.filter((x) => x !== "nao_sei")) || "ainda não sabe"],
+        ["Interesses", labelsFor("interests", a.interests) || "—"],
+        ["Experiências", labelsFor("experiences", a.experiences) || "—"],
+        ["Tempo", `${labelFor("hoursPerDay", String(a.hoursPerDay))}${a.period.length ? `, ${labelsFor("period", a.period).toLowerCase()}` : ""}`],
+        ["Já tem", labelsFor("equipment", a.equipment) || "nada marcado"],
+        ["Pode investir", labelFor("budget", String(a.budget))],
+        ["Prefere", labelFor("mode", a.mode)],
+        ["Com vendas", labelFor("salesComfort", a.salesComfort)],
+        ["Meta", a.goal == null ? "não informou" : labelFor("goal", String(a.goal))],
+      ]
+    : [];
+  const MODE = { online: "Online", presencial: "Presencial", ambos: "Online ou presencial" } as const;
+  const compare: [string, (i: number) => React.ReactNode][] = [
+    ["Compatibilidade", (i) => <b className="text-vira">{recs[i].rec.score}%</b>],
+    ["Onde", (i) => MODE[recs[i].opp.mode]],
+    ["Investimento inicial", (i) => (recs[i].opp.investmentMin ? `a partir de uns R$ ${recs[i].opp.investmentMin}` : "quase nada")],
+    ["Tempo por dia", (i) => `${String(recs[i].opp.minHoursPerDay / 10).replace(".", ",")} h ou mais`],
+    ["Precisa de", (i) => recs[i].opp.equipmentText],
+    ["Dificuldade", (i) => DIFF[recs[i].opp.difficulty]],
+    ["Quem compra", (i) => recs[i].opp.buyers],
+    ["Ponto de atenção", (i) => recs[i].rec.limits[0] ?? recs[i].opp.risks],
+  ];
   return (
     <div>
       <PageTitle eyebrow="Oportunidades" title="Três caminhos, com o porquê e com os limites" />
-      {sp.novo && <MentorBubble name="Caio" className="mb-5">Seu resultado está pronto! Achei 3 caminhos que cabem no seu tempo e no seu orçamento.</MentorBubble>}
+      <MentorBubble name="Caio" className="mb-5">
+        {sp.novo ? "Seu resultado está pronto! " : ""}A Bia me passou seu retrato completo e eu cruzei com a nossa biblioteca de oportunidades. Estes são os 3 caminhos que mais combinam com você, com o porquê e os limites de cada um.
+      </MentorBubble>
+      {handoff.length > 0 && (
+        <details className="mb-5 rounded-card bg-vira-light p-5" open={!!sp.novo}>
+          <summary className="cursor-pointer font-semibold text-vira-dark">O que a Bia passou para o Caio ▾</summary>
+          <dl className="mt-3 grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-2">
+            {handoff.map(([k, v]) => (
+              <div key={k} className="flex gap-2">
+                <dt className="shrink-0 text-tinta-soft">{k}:</dt>
+                <dd className="font-medium">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <a href="/app/talentos" className="link mt-3 inline-block text-sm">Algo mudou? Editar meu retrato</a>
+        </details>
+      )}
       {sp.recalculado && <Notice tone="green" className="mb-4">Refiz as contas com o seu perfil atualizado.</Notice>}
       {sp.mudou && <Notice tone="yellow" className="mb-4">O caminho que você escolheu não está mais entre os 3 que mais combinam. Você pode mantê-lo ou escolher outro.</Notice>}
       <div className="grid gap-4 lg:grid-cols-3">
@@ -71,6 +115,32 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ n
           );
         })}
       </div>
+      {recs.length > 1 && (
+        <div className="card mt-6">
+          <p className="eyebrow mb-3">Comparar lado a lado</p>
+          <div className="table-wrap">
+            <table className="tbl min-w-[640px]">
+              <thead>
+                <tr>
+                  <th className="w-40"></th>
+                  {recs.map(({ opp }, i) => <th key={opp.id} className="text-noite">{i + 1}ª · {opp.title}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {compare.map(([label, cell]) => (
+                  <tr key={label}>
+                    <td className="font-medium text-tinta-soft">{label}</td>
+                    {recs.map(({ opp }, i) => (
+                      <td key={opp.id}>{!paid && i > 0 ? <span className="text-tinta-soft">🔒</span> : cell(i)}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {!paid && <p className="mt-2 text-sm text-tinta-soft">🔒 A comparação completa libera com a assinatura.</p>}
+        </div>
+      )}
       <p className="mt-4 text-sm text-tinta-soft">
         Compatibilidade = habilidades + tempo + equipamentos + orçamento + preferência online ou presencial. É uma estimativa para ajudar a escolher, não uma garantia de resultado.
       </p>

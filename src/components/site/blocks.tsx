@@ -47,7 +47,7 @@ export function OpportunityExamples({ items }: { items: OppCard[] }) {
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((o) => (
-          <button key={o.slug} onClick={() => setOpen(open === o.slug ? null : o.slug)} aria-expanded={open === o.slug} className="rounded-2xl bg-white p-4 text-left shadow-sm ring-1 ring-tinta/5 transition hover:ring-vira/30">
+          <button key={o.slug} onClick={() => setOpen(open === o.slug ? null : o.slug)} aria-expanded={open === o.slug} className="rounded-2xl bg-white p-4 text-left shadow-sm ring-1 ring-tinta/5 transition hover:-translate-y-0.5 hover:shadow-md hover:ring-vira/40">
             <p className="font-semibold text-noite">{o.title}</p>
             <p className="mt-1 text-sm text-tinta-soft">Quem compra: {o.buyers}</p>
             <p className={`mt-1 text-sm font-semibold ${o.mode === "presencial" ? "text-festa-dark" : "text-vira"}`}>{tagLine(o)}</p>
@@ -62,7 +62,6 @@ export function OpportunityExamples({ items }: { items: OppCard[] }) {
           </button>
         ))}
       </div>
-      <p className="mt-4 text-sm text-tinta-soft">Cada card abre um resumo; a análise completa e a compatibilidade ficam para depois do questionário.</p>
     </div>
   );
 }
@@ -74,17 +73,16 @@ export function MentorsGrid() {
     <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-3">
         {MENTOR_ORDER.map((k) => (
-          <button key={k} onClick={() => setSel(k)} aria-pressed={sel === k} className={`flex flex-col items-center gap-2 rounded-2xl p-3 transition ${sel === k ? "bg-white shadow-sm ring-2 ring-vira" : "hover:bg-white/60"}`}>
+          <button key={k} onClick={() => setSel(k)} aria-pressed={sel === k} className={`flex flex-col items-center gap-2 rounded-2xl p-3 transition ${sel === k ? "bg-white shadow-md ring-2 ring-vira" : "bg-white/50 hover:bg-white"}`}>
             <MentorAvatar name={k} size="lg" />
             <span className="text-sm font-semibold">{k}</span>
           </button>
         ))}
       </div>
-      <div className="card" aria-live="polite">
-        <p className="eyebrow">{m.role}</p>
-        <p className="mt-2 font-display text-xl font-semibold text-noite">“{m.quote}”</p>
-        <p className="mt-3 text-tinta-soft">{m.does}</p>
-        <p className="mt-4 text-xs text-tinta-soft">{sel} é uma assistente de IA. O suporte da conta é feito por pessoas.</p>
+      <div className="rounded-card bg-noite p-6 text-white" aria-live="polite">
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-sol">{sel} · {m.role}</p>
+        <p className="mt-3 font-display text-xl font-semibold">“{m.quote}”</p>
+        <p className="mt-3 leading-relaxed text-white/80">{m.does}</p>
       </div>
     </div>
   );

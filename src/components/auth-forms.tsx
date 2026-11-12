@@ -4,7 +4,17 @@ import { useActionState, useEffect, useState } from "react";
 import { registerAction, loginAction, forgotAction, resetAction } from "@/app/actions/auth";
 import { FormMessage } from "./ui";
 
-function PasswordInput({ name = "password", label = "Senha", autoComplete, error }: { name?: string; label?: string; autoComplete: string; error?: string }) {
+function EyeIcon({ open }: { open: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+      {!open && <path d="M3 3l18 18" />}
+    </svg>
+  );
+}
+
+export function PasswordInput({ name = "password", label = "Senha", autoComplete, error }: { name?: string; label?: string; autoComplete: string; error?: string }) {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -12,12 +22,12 @@ function PasswordInput({ name = "password", label = "Senha", autoComplete, error
         {label}
       </label>
       <div className="relative">
-        <input id={`f-${name}`} name={name} type={show ? "text" : "password"} required minLength={name === "current" ? 1 : 8} autoComplete={autoComplete} className={`field pr-20 ${error ? "border-festa" : ""}`} aria-invalid={!!error} />
-        <button type="button" onClick={() => setShow(!show)} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full px-3 py-2 text-sm font-medium text-vira" aria-label={show ? "Esconder senha" : "Mostrar senha"}>
-          {show ? "Esconder" : "Mostrar"}
+        <input id={`f-${name}`} name={name} type={show ? "text" : "password"} required minLength={autoComplete === "new-password" ? 8 : undefined} autoComplete={autoComplete} className={`field pr-14 ${error ? "border-festa" : ""}`} aria-invalid={!!error} />
+        <button type="button" onClick={() => setShow(!show)} aria-pressed={show} className="absolute right-1.5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-tinta-soft hover:bg-areia hover:text-vira" aria-label={show ? "Esconder senha" : "Mostrar senha"} title={show ? "Esconder senha" : "Mostrar senha"}>
+          <EyeIcon open={show} />
         </button>
       </div>
-      {error ? <p className="help">{error}</p> : name !== "current" && autoComplete === "new-password" && <p className="mt-1.5 text-sm text-tinta-soft">No mínimo 8 caracteres.</p>}
+      {error ? <p className="help">{error}</p> : autoComplete === "new-password" && <p className="mt-1.5 text-sm text-tinta-soft">No mínimo 8 caracteres.</p>}
     </div>
   );
 }

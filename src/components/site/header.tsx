@@ -20,33 +20,33 @@ export function SiteHeader({ loggedIn }: { loggedIn: boolean }) {
     };
   }, [open]);
   return (
-    <header className="sticky top-0 z-40 border-b border-tinta/5 bg-areia/90 backdrop-blur">
+    <header className="sticky top-0 z-40 bg-vira">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Logo />
+        <Logo dark />
         <nav className="hidden items-center gap-6 text-[15px] md:flex" aria-label="Principal">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="text-tinta-soft hover:text-noite">
+            <Link key={n.href} href={n.href} className="text-white/85 hover:text-white">
               {n.label}
             </Link>
           ))}
         </nav>
         <div className="hidden items-center gap-2 md:flex">
           {loggedIn ? (
-            <Link href="/app" className="btn-primary btn-sm">
+            <Link href="/app" className="btn-highlight btn-sm">
               Minha área
             </Link>
           ) : (
             <>
-              <Link href="/entrar" className="btn-ghost btn-sm">
+              <Link href="/entrar" className="btn btn-sm px-3 text-white hover:underline">
                 Entrar
               </Link>
-              <Link href="/questionario" className="btn-primary btn-sm">
+              <Link href="/questionario" className="btn-highlight btn-sm">
                 Começar
               </Link>
             </>
           )}
         </div>
-        <button className="btn-ghost -mr-2 text-2xl text-noite md:hidden" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen(true)}>
+        <button className="btn -mr-2 px-3 text-2xl text-white md:hidden" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen(true)}>
           ☰
         </button>
       </div>

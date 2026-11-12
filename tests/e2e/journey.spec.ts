@@ -7,7 +7,7 @@ test("questionário → cadastro → prévia (1 aberta, 2 travadas) → pagament
   await register(page, email);
   await expect(page).toHaveURL(/\/app\/oportunidades/);
   await expect(page.getByText("Seu resultado está pronto!")).toBeVisible();
-  await expect(page.getByText("Libera com a assinatura")).toHaveCount(2);
+  await expect(page.getByText("Libera com a assinatura", { exact: true })).toHaveCount(2);
   await expect(page.getByRole("heading", { name: "Edição de vídeos curtos" })).toBeVisible();
 
   // Controle de acesso: áreas pagas bloqueadas antes do pagamento confirmado
@@ -33,7 +33,7 @@ test("questionário → cadastro → prévia (1 aberta, 2 travadas) → pagament
   await expect(page.getByText("Primeira conquista: Comecei!")).toBeVisible();
   await page.getByRole("button", { name: "Continuar" }).click();
   await page.getByRole("link", { name: "Ver minhas oportunidades" }).click();
-  await expect(page.getByText("Libera com a assinatura")).toHaveCount(0);
+  await expect(page.getByText("Libera com a assinatura", { exact: true })).toHaveCount(0);
 
   // Escolher caminho
   await page.getByRole("button", { name: "Escolher este caminho" }).first().click();

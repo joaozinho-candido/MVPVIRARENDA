@@ -5,6 +5,7 @@ import { togglePreferenceAction, deleteAccountAction } from "@/app/actions/priva
 import { cancelSubscriptionAction, resumeSubscriptionAction, updateCardAction } from "@/app/actions/billing";
 import { CardFields } from "../billing/checkout-form";
 import { FormMessage } from "../ui";
+import { PasswordInput } from "../auth-forms";
 
 export function NameForm({ name }: { name: string }) {
   const [state, action, pending] = useActionState(updateNameAction, null);
@@ -22,14 +23,8 @@ export function PasswordForm() {
   const [state, action, pending] = useActionState(changePasswordAction, null);
   return (
     <form action={action} className="space-y-3">
-      <div>
-        <label className="label" htmlFor="p-cur">Senha atual</label>
-        <input id="p-cur" name="current" type="password" autoComplete="current-password" className="field" required />
-      </div>
-      <div>
-        <label className="label" htmlFor="p-new">Nova senha</label>
-        <input id="p-new" name="next" type="password" autoComplete="new-password" minLength={8} className="field" required />
-      </div>
+      <PasswordInput name="current" label="Senha atual" autoComplete="current-password" />
+      <PasswordInput name="next" label="Nova senha" autoComplete="new-password" />
       <FormMessage state={state} />
       <button className="btn-secondary btn-sm" disabled={pending}>Trocar senha</button>
     </form>
@@ -121,10 +116,7 @@ export function DeleteAccount() {
   return (
     <form action={action} className="space-y-3 rounded-2xl border border-festa/30 bg-festa-light/50 p-4">
       <p className="text-[15px]">Isso apaga sua conta, respostas, materiais, clientes e lançamentos. Não dá para desfazer. A renovação da assinatura é cancelada.</p>
-      <div>
-        <label className="label" htmlFor="d-pass">Sua senha</label>
-        <input id="d-pass" name="password" type="password" className="field" required />
-      </div>
+      <PasswordInput name="password" label="Sua senha" autoComplete="current-password" />
       <div>
         <label className="label" htmlFor="d-confirm">Digite EXCLUIR para confirmar</label>
         <input id="d-confirm" name="confirm" className="field" required autoComplete="off" />

@@ -22,14 +22,14 @@ const BIA_LINES: Record<string, string> = {
   interests: "Agora, assuntos que te animam. Isso ajuda a achar algo que você goste de fazer.",
   helpWith: "Uma pista boa de talento: o que as pessoas vivem te pedindo?",
   timeFlies: "Tudo bem não saber. Vamos por outro caminho.",
-  experiences: "Experiências contam muito, mesmo as que não parecem ter a ver.",
+  experiences: "Suas experiências contam muito. Me conta quais são!",
   period: "Quando sobra um tempinho no seu dia?",
   hoursPerDay: "Seja realista: é melhor pouco tempo todo dia do que muito de vez em quando.",
-  equipment: "Vamos ver o que você já tem, para não sugerir nada que peça compra grande.",
-  budget: "Dá para começar com pouco. Isso só ajuda a filtrar.",
+  equipment: "Agora me mostra o que você já tem em casa. Assim eu só sugiro caminhos que funcionam com o que você usa hoje, sem precisar comprar nada caro.",
+  budget: "Quanto dá para investir no começo, sem apertar o orçamento? Muitos caminhos começam com quase nada, então pode marcar “Nada por enquanto” sem medo.",
   mode: "Prefere trabalhar de casa ou sair para atender?",
-  salesComfort: "Não tem resposta certa. A Lia escreve textos prontos para quem tem vergonha.",
-  goal: "Última! A meta é só para planejar. Ninguém aqui promete valores.",
+  salesComfort: "Essa resposta eu passo para a Lia, que escreve suas mensagens e textos de venda. Me conta com sinceridade como você se sente oferecendo seu trabalho, que ela ajusta o tom para você.",
+  goal: "Última pergunta! Se quiser, me conta quanto gostaria de ganhar por mês. A Rosa usa isso para planejar seu preço e acompanhar seu progresso com você. É só uma referência, ninguém aqui promete valores.",
 };
 
 function toAnswers(d: Draft): QuizAnswers {
