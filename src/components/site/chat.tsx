@@ -24,7 +24,7 @@ export function HeroChat() {
   return (
     <div className="mx-auto w-full max-w-[320px]" aria-label="Exemplo de conversa com a mentora Bia">
       <div className="rounded-[2.6rem] bg-noite p-3 shadow-2xl ring-1 ring-white/10">
-        <div className="relative overflow-hidden rounded-[2rem] bg-areia">
+        <div className="relative overflow-hidden rounded-[2rem] bg-areia text-tinta">
           <div className="mx-auto mt-2 h-5 w-24 rounded-full bg-noite" aria-hidden />
           <div className="flex items-center gap-3 border-b border-tinta/10 bg-white px-4 py-3">
             <MentorAvatar name="Bia" size="sm" />

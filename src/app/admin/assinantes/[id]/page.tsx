@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { requireRole } from "@/server/session";
 import { subscriberDetail } from "@/server/admin";
-import { PageTitle, Pill, MentorAvatar } from "@/components/ui";
+import { PageTitle, Pill } from "@/components/ui";
 import { ActionButton } from "@/components/admin/form";
 import { AdminDeleteUser } from "@/components/admin/user-controls";
 import { refundAction, adminCancelRenewalAction, resendAccessAction } from "@/app/actions/admin";
@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-4">
-        <MentorAvatar name={d.user.name} size="lg" />
+        <span aria-hidden className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-vira-light font-display text-xl font-bold text-vira-dark">{d.user.name[0]}</span>
         <div>
           <PageTitle title={d.user.name} />
           <p className="-mt-5 text-sm text-tinta-soft">{maskEmail(d.user.email)} · cliente desde {dateBR(d.user.createdAt)}</p>

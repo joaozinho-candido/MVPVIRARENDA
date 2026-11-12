@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { mentor } from "@/lib/mentors";
 
 export function Logo({ dark = false, href = "/" }: { dark?: boolean; href?: string }) {
@@ -10,9 +11,24 @@ export function Logo({ dark = false, href = "/" }: { dark?: boolean; href?: stri
   );
 }
 
-export function MentorAvatar({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) {
+const PHOTOS: Record<string, string> = { Bia: "bia", Caio: "caio", Duda: "duda", Lia: "lia", Nando: "nando", Rosa: "rosa" };
+
+export function MentorAvatar({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" | "xl" }) {
   const m = mentor(name);
-  const s = size === "sm" ? "h-8 w-8 text-sm" : size === "lg" ? "h-14 w-14 text-xl" : "h-10 w-10 text-base";
+  const px = { sm: 32, md: 40, lg: 56, xl: 88 }[size];
+  const s = { sm: "h-8 w-8 text-sm", md: "h-10 w-10 text-base", lg: "h-14 w-14 text-xl", xl: "h-[88px] w-[88px] text-3xl" }[size];
+  const photo = PHOTOS[name];
+  if (photo)
+    return (
+      <Image
+        src={`/mentores/${photo}.jpg`}
+        alt=""
+        aria-hidden
+        width={px}
+        height={px}
+        className={`shrink-0 rounded-full object-cover ring-2 ring-white ${s} ${m.bg}`}
+      />
+    );
   return (
     <span aria-hidden className={`inline-flex shrink-0 items-center justify-center rounded-full font-display font-bold ${s} ${m.bg} ${m.fg}`}>
       {name[0]}

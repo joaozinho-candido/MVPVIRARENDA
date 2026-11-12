@@ -74,7 +74,7 @@ export function MentorsGrid() {
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-3">
         {MENTOR_ORDER.map((k) => (
           <button key={k} onClick={() => setSel(k)} aria-pressed={sel === k} className={`flex flex-col items-center gap-2 rounded-2xl p-3 transition ${sel === k ? "bg-white shadow-md ring-2 ring-vira" : "bg-white/50 hover:bg-white"}`}>
-            <MentorAvatar name={k} size="lg" />
+            <MentorAvatar name={k} size="xl" />
             <span className="text-sm font-semibold">{k}</span>
           </button>
         ))}
