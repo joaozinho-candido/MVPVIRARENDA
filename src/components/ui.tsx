@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { mentor } from "@/lib/mentors";
+import { LogoMark } from "./logo-mark";
 
 export function Logo({ dark = false, href = "/" }: { dark?: boolean; href?: string }) {
   return (
-    <Link href={href} className="font-display text-xl font-extrabold tracking-tight" aria-label="Vira Renda, página inicial">
-      <span className={dark ? "text-[#5BE09A]" : "text-vira"}>vira</span>{" "}
-      <span className={dark ? "text-white" : "text-noite"}>renda</span>
+    <Link href={href} className="inline-flex items-center gap-2 font-display text-xl font-extrabold tracking-tight" aria-label="Vira Renda, página inicial">
+      <LogoMark size={32} className={dark ? "rounded-[8px] ring-1 ring-white/25" : ""} />
+      <span>
+        <span className={dark ? "text-[#5BE09A]" : "text-vira"}>vira</span>{" "}
+        <span className={dark ? "text-white" : "text-noite"}>renda</span>
+      </span>
     </Link>
   );
 }
