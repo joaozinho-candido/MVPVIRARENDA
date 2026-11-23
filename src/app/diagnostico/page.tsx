@@ -9,7 +9,7 @@ import { PingButton } from "./ping";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Diagnóstico" };
 
-const VERSION = "2026-11-23.1";
+const VERSION = "2026-11-23.2";
 
 /** Só em desenvolvimento: ajuda a descobrir por que login/cadastro não funcionam num ambiente. */
 export default async function Page() {
