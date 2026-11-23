@@ -80,6 +80,8 @@ Princípios do documento aplicados no código: celular primeiro; sem promessa de
 
 Contas de demonstração e cartões de teste estão em [Contas de demonstração](#contas-de-demonstração). Os e-mails do sistema aparecem em `/dev/emails`.
 
+Se o login ou o cadastro não funcionarem no Codespace, abra `/diagnostico` no endereço do Codespace: a página mostra a versão do código, se o banco e as contas de demonstração existem e tem um botão **Testar formulários**. Para atualizar o código e reiniciar o site, rode `git pull` e depois `npm run dev:restart` no terminal (ou feche e abra o Codespace de novo: ele baixa a versão mais nova sozinho).
+
 Para mostrar a outras pessoas enquanto o Codespace estiver ligado: na aba **Portas**, clique com o botão direito na porta 3000 › **Visibilidade da porta › Pública** e copie o endereço. Quem tiver o link entra no site, e as senhas de demonstração são conhecidas: use só para testes e volte para Privada depois. O Codespace desliga sozinho após um tempo sem uso; para religar, abra-o de novo em **Code › Codespaces**.
 
 ## Instalação

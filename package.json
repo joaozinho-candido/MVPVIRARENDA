@@ -14,7 +14,9 @@
     "db:reset": "tsx scripts/reset.ts",
     "billing:run": "tsx scripts/billing.ts",
     "test": "vitest run",
-    "test:e2e": "playwright test --trace off"
+    "test:e2e": "playwright test --trace off",
+    "predev": "node scripts/check-port.mjs",
+    "dev:restart": "(pkill -f \"next dev\" || true) && (pkill -f next-server || true) && sleep 1 && npm run dev"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.15",

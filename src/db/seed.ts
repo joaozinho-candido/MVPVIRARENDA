@@ -4,6 +4,8 @@ import * as s from "./schema";
 import { OPPORTUNITIES, STAGES, MISSIONS, BADGES, CONTENTS, LEGAL_CONTENTS, PLANS } from "./seed-data";
 import { LEGAL_DOCS } from "./legal-docs";
 import { hashPassword } from "@/server/auth";
+import { startCheckout } from "@/server/billing/subscriptions";
+import { saveTalentProfile, chooseOpportunity, getRecommendations } from "@/server/profile";
 
 /** Insere só o que falta (não sobrescreve edições feitas no admin). */
 export async function seedBase() {
@@ -51,4 +53,46 @@ export async function ensureUser(name: string, email: string, password: string, 
     { userId: u.id, kind: "privacy", version: "1.0", granted: true },
   ]);
   return u;
+}
+
+/** Administrador inicial (em desenvolvimento usa uma senha padrão conhecida). */
+export async function seedAdmin() {
+  const isProd = process.env.NODE_ENV === "production";
+  const email = process.env.ADMIN_EMAIL ?? (isProd ? "" : "admin@virarenda.local");
+  const password = process.env.ADMIN_PASSWORD ?? (isProd ? "" : "admin12345");
+  if (!email || !password) return null;
+  return ensureUser("Administração", email.toLowerCase(), password, "admin");
+}
+
+/** Contas de demonstração (somente desenvolvimento/testes). */
+export async function seedDemo() {
+  await ensureUser("Edna Editora", "editor@virarenda.local", "editor12345", "editor");
+  await ensureUser("Rui Revisor", "revisor@virarenda.local", "revisor12345", "reviewer");
+  const camila = await ensureUser("Camila Rocha", "camila@virarenda.local", "camila12345", "user");
+  const hasProfile = await db.query.talentProfiles.findFirst({ where: eq(s.talentProfiles.userId, camila.id) });
+  if (hasProfile) return;
+  await saveTalentProfile(camila.id, {
+    skills: ["fotos", "redes", "atendimento"],
+    interests: ["beleza", "comercio"],
+    helpWith: ["fotos", "redes"],
+    experiences: ["vendas", "atendimento"],
+    period: ["noite"],
+    hoursPerDay: 1,
+    equipment: ["celular", "internet"],
+    budget: 100,
+    mode: "online",
+    salesComfort: "medio",
+    goal: 800,
+  });
+  try {
+    await startCheckout(camila.id, {
+      method: "card",
+      accepted: true,
+      card: { number: "4242 4242 4242 4242", expiry: "12/30", cvv: "123", cpf: "529.982.247-25" },
+    });
+    const recs = await getRecommendations(camila.id);
+    await chooseOpportunity(camila.id, recs[0].opp.id);
+  } catch (e) {
+    console.log("(demo) assinatura já existente:", (e as Error).message);
+  }
 }
