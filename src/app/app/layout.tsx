@@ -6,6 +6,7 @@ import { AppShell } from "@/components/app/shell";
 import { ClearQuizDraft } from "@/components/app/clear-draft";
 import { dateBR, addDays } from "@/lib/format";
 import { getProfile } from "@/server/profile";
+import { config } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         Seu acesso está pausado por falta de pagamento. Nada foi apagado. <Link href="/app/perfil?aba=plano" className="underline">Regularizar</Link>
       </div>
     );
-  } else if (!u.emailVerified && u.role === "user") {
+  } else if (!u.emailVerified && u.role === "user" && config.requireEmailVerification) {
     banner = (
       <div className="bg-vira-light px-4 py-2.5 text-center text-sm text-vira-dark">
         Confirme seu e-mail para poder assinar. <Link href="/app/perfil" className="underline">Reenviar link</Link>

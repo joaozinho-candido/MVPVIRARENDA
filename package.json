@@ -16,7 +16,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test --trace off",
     "predev": "node scripts/check-port.mjs",
-    "dev:restart": "(pkill -f \"next dev\" || true) && (pkill -f next-server || true) && sleep 1 && npm run dev"
+    "dev:restart": "(pkill -f \"next dev\" || true) && (pkill -f next-server || true) && sleep 1 && npm run dev",
+    "vercel-build": "tsx scripts/seed.ts && next build"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.15",

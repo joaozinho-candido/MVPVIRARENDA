@@ -236,6 +236,17 @@ Para integrar um gateway brasileiro (Asaas, Mercado Pago, Pagar.me, Iugu…):
 
 ## Publicação
 
+### Vercel + Neon (recomendado para testes)
+
+O projeto já vem preparado: o script `vercel-build` aplica as migrações e cria os dados base e o admin a cada publicação (sem duplicar nada), e `vercel.json` agenda o ciclo diário de cobrança.
+
+1. Na Vercel, **Add New › Project** e importe o repositório (predefinição Next.js).
+2. Em **Variáveis de ambiente**: `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `PAYMENT_WEBHOOK_SECRET`, `CRON_SECRET` e, enquanto os e-mails não forem enviados de verdade, `REQUIRE_EMAIL_VERIFICATION=false`.
+3. Publique. Depois, em **Storage › Create Database › Neon**, conecte o banco ao projeto (cria `DATABASE_URL`) e use **Redeploy**.
+4. Cada `git push` na `main` publica sozinho. `APP_URL` é opcional (usa o domínio da Vercel).
+
+### Outras opções
+
 Sugestão: **Vercel** (app) + **Supabase** (Postgres).
 
 1. Criar o banco no Supabase e pegar a connection string do pooler.

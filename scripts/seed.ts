@@ -4,6 +4,10 @@ import { seedBase, seedAdmin, seedDemo } from "../src/db/seed";
 const demo = process.argv.includes("--demo");
 
 (async () => {
+  if (process.env.VERCEL && !process.env.DATABASE_URL) {
+    console.warn("! DATABASE_URL não configurada na Vercel: pulando banco. Conecte o Neon em Storage e publique de novo.");
+    return;
+  }
   await runMigrations();
   await seedBase();
   console.log("✓ Dados base (oportunidades, etapas, missões, selos, conteúdos, guias, planos)");

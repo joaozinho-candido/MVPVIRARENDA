@@ -11,6 +11,7 @@ import {
   type SubscriptionStatus,
 } from "@/db/schema";
 import { UserError } from "@/lib/errors";
+import { config } from "@/lib/config";
 import { addDays, addMonths, brl, dateBR, firstName } from "@/lib/format";
 import { cpfValid, expiryValid, luhnValid, onlyDigits } from "@/lib/validators";
 import { sendEmail, link, footer } from "../email";
@@ -129,7 +130,7 @@ export type CheckoutInput = {
 export async function startCheckout(userId: string, input: CheckoutInput, now = new Date()) {
   const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
   if (!user) throw new UserError("Entre na sua conta para assinar.");
-  if (!user.emailVerifiedAt) throw new UserError("Confirme seu e-mail antes de assinar. Reenviamos o link no seu perfil.");
+  if (config.requireEmailVerification && !user.emailVerifiedAt) throw new UserError("Confirme seu e-mail antes de assinar. Reenviamos o link no seu perfil.");
   if (!input.accepted)
     throw new UserError("Marque que entendeu o valor de hoje e o valor dos próximos meses.", "accepted");
   const current = await getCurrentSubscription(userId);
