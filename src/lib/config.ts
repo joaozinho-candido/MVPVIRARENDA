@@ -3,7 +3,9 @@ export const config = {
     process.env.APP_URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000"),
   /** Exigir e-mail confirmado antes de assinar. Desligue (false) em ambientes de teste sem envio real de e-mails. */
-  requireEmailVerification: process.env.REQUIRE_EMAIL_VERIFICATION !== "false",
+  requireEmailVerification: !["false", "falso", "0", "no", "nao", "não", "off"].includes(
+    (process.env.REQUIRE_EMAIL_VERIFICATION ?? "").trim().replace(/^["']|["']$/g, "").toLowerCase(),
+  ),
   isProd: process.env.NODE_ENV === "production",
   /** Mostra a caixa de e-mails de desenvolvimento em /dev/emails. Nunca habilite em produção real. */
   devMailbox: process.env.DEV_MAILBOX === "true" || process.env.NODE_ENV !== "production",
