@@ -1,11 +1,22 @@
+function emailVerificationRequired() {
+  const raw = (process.env.REQUIRE_EMAIL_VERIFICATION ?? "").trim().replace(/^["']|["']$/g, "").toLowerCase();
+  if (["false", "falso", "0", "no", "nao", "não", "off"].includes(raw)) return false;
+  if (["true", "verdadeiro", "1", "yes", "sim", "on"].includes(raw)) return true;
+  const canDeliver = !!process.env.EMAIL_PROVIDER || process.env.DEV_MAILBOX === "true" || process.env.NODE_ENV !== "production";
+  return canDeliver;
+}
+
 export const config = {
   appUrl:
     process.env.APP_URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000"),
-  /** Exigir e-mail confirmado antes de assinar. Desligue (false) em ambientes de teste sem envio real de e-mails. */
-  requireEmailVerification: !["false", "falso", "0", "no", "nao", "não", "off"].includes(
-    (process.env.REQUIRE_EMAIL_VERIFICATION ?? "").trim().replace(/^["']|["']$/g, "").toLowerCase(),
-  ),
+  /**
+   * Exigir e-mail confirmado antes de assinar.
+   * Padrão: só exige quando há como o e-mail chegar (provedor configurado em EMAIL_PROVIDER ou a caixa
+   * de desenvolvimento /dev/emails ligada). Sem isso a confirmação seria impossível.
+   * REQUIRE_EMAIL_VERIFICATION=true/false força o comportamento.
+   */
+  requireEmailVerification: emailVerificationRequired(),
   isProd: process.env.NODE_ENV === "production",
   /** Mostra a caixa de e-mails de desenvolvimento em /dev/emails. Nunca habilite em produção real. */
   devMailbox: process.env.DEV_MAILBOX === "true" || process.env.NODE_ENV !== "production",
